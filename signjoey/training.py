@@ -9,6 +9,7 @@ import os
 import shutil
 import time
 import queue
+import wandb
 
 from signjoey.model import build_model
 from signjoey.batch import Batch
@@ -346,6 +347,8 @@ class TrainManager:
         :param train_data: training data
         :param valid_data: validation data
         """
+        wandb.init(project="mml24_agkw_baseline_transformer")
+
         train_iter = make_data_iter(
             train_data,
             batch_size=self.batch_size,
@@ -418,6 +421,11 @@ class TrainManager:
                 ):
                     self.scheduler.step()
 
+                wandb.log({
+                    "train_recognition_loss": recognition_loss,
+                    "train_translation_loss": translation_loss,
+                    "step": self.steps
+                })
                 # log learning progress
                 if self.steps % self.logging_freq == 0 and update:
                     elapsed = time.time() - start - total_valid_duration
@@ -502,6 +510,14 @@ class TrainManager:
                     )
                     self.model.train()
 
+                    valid_recognition_loss = val_res["valid_recognition_loss"] if self.do_recognition else None
+                    valid_translation_loss = val_res["valid_translation_loss"] if self.do_translation else None
+
+                    wandb_log_data = {
+    "step": self.steps,
+    "valid_recognition_loss": valid_recognition_loss,
+    "valid_translation_loss": valid_translation_loss
+}
                     if self.do_recognition:
                         # Log Losses and ppl
                         self.tb_writer.add_scalar(
@@ -543,6 +559,18 @@ class TrainManager:
                             val_res["valid_scores"]["bleu_scores"],
                             self.steps,
                         )
+                    
+                    wandb_log_data.update({
+        "valid_ppl": val_res["valid_ppl"],
+        "valid_chrf": val_res["valid_scores"]["chrf"],
+        "valid_rouge": val_res["valid_scores"]["rouge"],
+        "valid_bleu": val_res["valid_scores"]["bleu"],
+        **{"valid_bleu_" + k: v for k, v in val_res["valid_scores"]["bleu_scores"].items()},
+        "valid_wer": val_res["valid_scores"]["wer"],
+        **{"valid_wer_" + k: v for k, v in val_res["valid_scores"]["wer_scores"].items()}
+    })
+
+                    wandb.log(wandb_log_data)
 
                     if self.early_stopping_metric == "recognition_loss":
                         assert self.do_recognition
