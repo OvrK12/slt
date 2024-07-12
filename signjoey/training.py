@@ -755,8 +755,8 @@ class TrainManager:
 
         # TODO: change data path to make it usable outside of colab
         artifact = wandb.Artifact(name=self.config["name"], type="model", metadata = self.config)
-        artifact.add_file(f"/content/slt/sign_sample_model/{self.config["name"]}/best.ckpt")
-        wandb.save(f"/content/slt/sign_sample_model/{self.config["name"]}/best.ckpt")
+        artifact.add_file(f"/content/slt/sign_sample_model/{self.config['name']}/best.ckpt")
+        wandb.save(f"/content/slt/sign_sample_model/{self.config['name']}/best.ckpt")
         wandb.log_artifact(artifact)
 
         self.tb_writer.close()  # close Tensorboard writer
