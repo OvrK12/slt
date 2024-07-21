@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 import torch
+import wandb
 
 torch.backends.cudnn.deterministic = True
 
 import logging
-import wandb
 import numpy as np
 import pickle as pickle
 import time
@@ -256,9 +256,6 @@ def validate_on_data(
             valid_scores["bleu_scores"] = txt_bleu
             valid_scores["chrf"] = txt_chrf
             valid_scores["rouge"] = txt_rouge
-
-    # wandb
-    wandb.log(valid_scores)
 
     results = {
         "valid_scores": valid_scores,
@@ -631,6 +628,8 @@ def test(
         test_best_result["valid_scores"]["rouge"] if do_translation else -1,
     )
     logger.info("*" * 60)
+
+    wandb.log(test_best_result["valid_scores"])
 
     def _write_to_file(file_path: str, sequence_ids: List[str], hypotheses: List[str]):
         with open(file_path, mode="w", encoding="utf-8") as out_file:
