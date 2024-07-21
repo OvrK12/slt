@@ -4,6 +4,7 @@ import torch
 torch.backends.cudnn.deterministic = True
 
 import logging
+import wandb
 import numpy as np
 import pickle as pickle
 import time
