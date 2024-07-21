@@ -256,6 +256,9 @@ def validate_on_data(
             valid_scores["chrf"] = txt_chrf
             valid_scores["rouge"] = txt_rouge
 
+    # wandb
+    wandb.log(valid_scores)
+
     results = {
         "valid_scores": valid_scores,
         "all_attention_scores": all_attention_scores,
@@ -298,6 +301,7 @@ def test(
             logger.setLevel(level=logging.DEBUG)
 
     cfg = load_config(cfg_file)
+    wandb.init(project="mml24_agkw", config = cfg, tags = [cfg["name"], "test"])
 
     if "test" not in cfg["data"].keys():
         raise ValueError("Test data must be specified in config.")
