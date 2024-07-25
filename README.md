@@ -1,40 +1,35 @@
-# Sign Language Transformers (CVPR'20)
+# Sign Language Sense Disambiguation
+Submission of Group 1 for 'Erweiterungsmodul Computerlinguistik' @ LMU Munich 2024
 
-This repo contains the training and evaluation code for the paper [Sign Language Transformers: Sign Language Transformers: Joint End-to-end Sign Language Recognition and Translation](https://www.cihancamgoz.com/pub/camgoz2020cvpr.pdf). 
+## Description
+This term project on Information Retrieval (IR) with Vector Space Models (VSM) is a submission for the 'Erweiterungsmodul Computerlinguistik' course at the Ludwig-Maximilians-Universtät in Munich. The course is taught by Özge Alacam and Beiduo Chen.
+The authors perform Sign Language Sense Disambiguation on newly created and augmented datasets.
 
-This code is based on [Joey NMT](https://github.com/joeynmt/joeynmt) but modified to realize joint continuous sign language recognition and translation. For text-to-text translation experiments, you can use the original Joey NMT framework.
- 
-## Requirements
-* Download the feature files using the `data/download.sh` script.
+This project researches the improvement possibilities of disambiguation using a transformer-based model by enhancing the available sign language data with cut-outs of specific bodyparts.
+It is based on the prior research by [Camgöz et al. (2020)](https://arxiv.org/abs/2003.13830).
 
-* [Optional] Create a conda or python virtual environment.
 
-* Install required packages using the `requirements.txt` file.
+## Installation
+The data is stored in the ```data``` folder and ready-to-use for the transformer.
+It was created in the course of the experiment development.
 
-    `pip install -r requirements.txt`
+All used package versions are provided in the ```requirements.txt``` file.
 
 ## Usage
+TODO
 
-  `python -m signjoey train configs/sign.yaml` 
+The transformer can be trained with
+    ````python -m signjoey train configs/sign.yaml```
 
-! Note that the default data directory is `./data`. If you download them to somewhere else, you need to update the `data_path` parameters in your config file.   
-## ToDo:
+The following configuration files are available in ```configs``` for experiments:
+- ```sign.yaml```: Standard configuration by the authors of the original repository.
 
-- [X] *Initial code release.*
-- [X] *Release image features for Phoenix2014T.*
-- [ ] Share extensive qualitative and quantitative results & config files to generate them.
-- [ ] (Nice to have) - Guide to set up conda environment and docker image.
+## Results
+TODO
 
-## Reference
+## Acknowledgment
+We want to thank our supervisors Özge Alacam and Beiduo Chen for their support and advice in the developing stages of the project.
 
-Please cite the paper below if you use this code in your research:
-
-    @inproceedings{camgoz2020sign,
-      author = {Necati Cihan Camgoz and Oscar Koller and Simon Hadfield and Richard Bowden},
-      title = {Sign Language Transformers: Joint End-to-end Sign Language Recognition and Translation},
-      booktitle = {IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
-      year = {2020}
-    }
-
-## Acknowledgements
-<sub>This work was funded by the SNSF Sinergia project "Scalable Multimodal Sign Language Technology for Sign Language Learning and Assessment" (SMILE) grant agreement number CRSII2 160811 and the European Union’s Horizon2020 research and innovation programme under grant agreement no. 762021 (Content4All). This work reflects only the author’s view and the Commission is not responsible for any use that may be made of the information it contains. We would also like to thank NVIDIA Corporation for their GPU grant. </sub>
+## Project status
+<!-- This project was finished on August 2nd, 2024. -->
+This project is a work-in-progress.
