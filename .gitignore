@@ -1,4 +1,7 @@
-
+venv/
+sign_sample_model/
+wandb/
+data/*.pickle
 .idea/
 
 *.pyc
