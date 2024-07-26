@@ -2,7 +2,7 @@
 Submission of Group 1 for 'Erweiterungsmodul Computerlinguistik' @ LMU Munich 2024
 
 ## Description
-This term project on Information Retrieval (IR) with Vector Space Models (VSM) is a submission for the 'Erweiterungsmodul Computerlinguistik' course at the Ludwig-Maximilians-Universtät in Munich. The course is taught by Özge Alacam and Beiduo Chen.
+This term project on Sign Language Translation is a submission for the 'Erweiterungsmodul Computerlinguistik' course at the Ludwig-Maximilians-Universtät in Munich. The course is taught by Özge Alacam and Beiduo Chen.
 The authors perform Sign Language Sense Disambiguation on newly created and augmented datasets.
 
 This project researches the improvement possibilities of disambiguation using a transformer-based model by enhancing the available sign language data with cut-outs of specific bodyparts.
