@@ -1,6 +1,7 @@
 venv/
 sign_sample_model/
 wandb/
+configs/*.yaml
 data/raw/
 data/*.pickle
 .idea/
