@@ -26,6 +26,7 @@ Markdown
 matplotlib
 more-itertools
 natsort
+nltk
 numpy
 oauthlib
 opencv-python
@@ -75,6 +76,7 @@ warmup-scheduler
 wandb
 wcwidth
 Werkzeug
+wget
 wrapt
 xmltodict
 zipp
