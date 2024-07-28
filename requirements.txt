@@ -29,6 +29,7 @@ natsort
 nltk
 numpy
 oauthlib
+openai
 opencv-python
 opt-einsum
 packaging

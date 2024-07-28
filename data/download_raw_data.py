@@ -1,8 +1,10 @@
 import os
 import gzip
+import gdown
 import tarfile
 import shutil
 import wget
+import zipfile
 
 
 OUTPUT_DIR = './raw'
@@ -11,7 +13,8 @@ raw_files = [
     'https://www-i6.informatik.rwth-aachen.de/ftp/pub/rwth-phoenix/20110111-annotated-groundtruth.xml.gz',
     'https://www-i6.informatik.rwth-aachen.de/ftp/pub/rwth-phoenix/rwth-phoenix-full-20120323.corpus.gz',
     'https://www-i6.informatik.rwth-aachen.de/ftp/pub/rwth-phoenix/tracking-groundtruth-sequences.tgz',
-    'https://www-i6.informatik.rwth-aachen.de/ftp/pub/rwth-phoenix/translation_full_set_20120820.tgz'
+    'https://www-i6.informatik.rwth-aachen.de/ftp/pub/rwth-phoenix/translation_full_set_20120820.tgz',
+    'https://drive.google.com/uc?id=1P7a2nZcD8wFkar8QNCKn_rI0K_I9OHcW'
 ]
 
 def extract_gz(gz_path, extract_path):
@@ -25,7 +28,10 @@ def extract_tgz(tgz_path, extract_dir):
 
 # download files
 for url in raw_files:
-    wget.download(url, out=OUTPUT_DIR)
+    if 'google' in url:
+        gdown.download(url,output=f'{OUTPUT_DIR}/tracking-groundtruth-sequences-bodyparts.zip')
+    else:
+        wget.download(url, out=OUTPUT_DIR)
 
 # unpack files
 for filename in os.listdir(OUTPUT_DIR):
@@ -35,9 +41,14 @@ for filename in os.listdir(OUTPUT_DIR):
         # Extract .gz files
         extract_path = os.path.join(OUTPUT_DIR, filename[:-3])
         extract_gz(file_path, extract_path)
-        print(f"Extracted: {filename}")
     
+    elif filename.endswith('.zip'):
+        # Extract .zip files
+        with zipfile.ZipFile(file_path, 'r') as zip_ref:
+            zip_ref.extractall(OUTPUT_DIR)
+
     elif filename.endswith('.tgz'):
         # Extract .tgz files
         extract_tgz(file_path, OUTPUT_DIR)
-        print(f"Extracted: {filename}")
+
+    print(f'Extracted: {filename}')

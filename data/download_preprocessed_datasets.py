@@ -1,6 +1,6 @@
 import gdown
 
-# TODO: add all our datasets here
+# TODO: add only datasets for which we report results in the final paper
 datasets = [
     'https://drive.google.com/uc?id=1wRwKE7A4eyXWvcI6Qb5xrfJmltTMjSBm', # Baseline train
     'https://drive.google.com/uc?id=1l9J-ojZ1LaM70pOYS7YMqqEA7252AxxN', # Baseline test
@@ -14,4 +14,3 @@ datasets = [
 if __name__ == "__main__":
     for dataset_url in datasets:
         gdown.download(dataset_url)
-
