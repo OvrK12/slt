@@ -75,13 +75,13 @@ def create_config(dataset_name, train_file, dev_file, test_file,
                 'num_layers': 3,
                 'num_heads': 8,
                 'embeddings': {
-                    'embedding_dim': 512,
+                    'embedding_dim': hidden_dim,
                     'scale': False,
                     'dropout': 0.1,
                     'norm_type': 'batch',
                     'activation_type': 'softsign'
                 },
-                'hidden_size': 512,
+                'hidden_size': hidden_dim,
                 'ff_size': 2048,
                 'dropout': 0.1
             },
@@ -90,13 +90,13 @@ def create_config(dataset_name, train_file, dev_file, test_file,
                 'num_layers': 3,
                 'num_heads': 8,
                 'embeddings': {
-                    'embedding_dim': 512,
+                    'embedding_dim': hidden_dim,
                     'scale': False,
                     'dropout': 0.1,
                     'norm_type': 'batch',
                     'activation_type': 'softsign'
                 },
-                'hidden_size': 512,
+                'hidden_size': hidden_dim,
                 'ff_size': 2048,
                 'dropout': 0.1
             }
