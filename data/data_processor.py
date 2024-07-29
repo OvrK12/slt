@@ -7,16 +7,19 @@ from collections import defaultdict
 from tqdm import tqdm
 import xml.etree.ElementTree as ET
 from PIL import Image
+import random
+import albumentations as A
+import numpy as np
 from openai import OpenAI
 
 def create_pil_images(data_path):
-    """_summary_
+    """Create a dictionary of PIL images for each video in the given data path.
 
     Args:
-        data_path (_type_): _description_
+        data_path (str): Path to the directory containing the video files
 
     Returns:
-        _type_: _description_
+        dict: A dictionary where keys are video names and values are lists of the corresponding PIL images.
     """    
     pil_image_dict = defaultdict(list)
     video_dirs = os.listdir(data_path)
@@ -45,33 +48,33 @@ class DataProcessor:
             self.openai_client = OpenAI()        
 
     def dump_data(self, filename):
-        """_summary_
+        """Dump the processed data_dicts to a pickle file.
 
         Args:
-            filename (_type_): _description_
+            filename (str): Name of the file to save the data.
         """        
         with gzip.open(filename, "wb") as data_file:
             pickle.dump(self.data_dicts, data_file)
 
     def load_data(self, filename):
-        """_summary_
+        """Load data_dicts from a pickle file.
 
         Args:
-            filename (_type_): _description_
+            filename (str): Name of the file to load the data from.
 
         Returns:
-            _type_: _description_
-        """        
+            list: data_dicts from the pickle file.
+        """             
         with gzip.open(filename, "rb") as f:
             return pickle.load(f)
 
     def split_data(self, filename, rate=(0.7, 0.1)):
-        """_summary_
+        """Split the data into train, dev, and test sets and save them to separate files.
 
         Args:
-            filename (_type_): _description_
-            rate (tuple, optional): _description_. Defaults to (0.7, 0.1).
-        """        
+            filename (str): Base filename for the split data files.
+            rate (tuple, optional): Tuple containing the split ratios for train and dev sets. Remaining ratio is assigned to test.
+        """       
         train_file = filename[:-7] + "_train.pickle"
         dev_file = filename[:-7] + "_dev.pickle"
         test_file = filename[:-7] + "_test.pickle"
@@ -91,14 +94,15 @@ class DataProcessor:
         print(f"Test data: {len(self.data_dicts[dev_index:])}")
     
     def gloss_set(self, gloss):
-        """_summary_
+        """Create a set of unique words from a gloss string.
+        The set is used to compare the original glosses to the preprocessed glosses.
 
         Args:
-            gloss (_type_): _description_
+            gloss (str): The gloss string to process.
 
         Returns:
-            _type_: _description_
-        """        
+            set: The wordset extracted from the gloss string.
+        """      
         gloss_set = set()
         for word in gloss.split(" "):
             if word.startswith("loc-"):
@@ -111,14 +115,14 @@ class DataProcessor:
         return gloss_set
 
     def match_gloss(self, orig_gloss):
-        """_summary_
+        """Find the index of the best matching gloss from the ground truth glosses.
 
         Args:
-            orig_gloss (_type_): _description_
+            orig_gloss (str): The original gloss to match.
 
         Returns:
-            _type_: _description_
-        """        
+            int: Index of the best matching gloss in the ground truth set.
+        """     
         # create word set of original gloss
         word_set = self.gloss_set(orig_gloss)
         with open(f"{self.config['raw_data_location']}/translation_full_set/glosses.train", "r", encoding="utf-8") as gloss_train:
@@ -131,14 +135,15 @@ class DataProcessor:
             return max(range(len(intersections)), key=lambda i: len(intersections[i]))
 
     def add_text(self, index, gloss):
-        """_summary_
+        """Add natural language text to the data_dict according to the matched gloss.
+        If the config has enabled gpt_subs, we call the openAI API to fill in placeholders of the original text.
 
         Args:
-            index (_type_): _description_
-            gloss (_type_): _description_
+            index (int): Index of the text to add
+            gloss (str): The gloss string used for text modification by the openAI API
 
         Returns:
-            _type_: _description_
+            str: The retrieved and potentially modified text.
         """        
         with open(f"{self.config['raw_data_location']}/translation_full_set/german.train", "r", encoding="utf-8") as german_train:
             german_texts = [line.strip() for line in german_train.readlines()]
@@ -172,8 +177,8 @@ class BaselineDataProcessor(DataProcessor):
         self.pil_image_dict = pil_image_dict
 
     def create_data(self):
-        """_summary_
-        """        
+        """Create baseline data.
+        """     
         root = ET.parse(f"{self.config['raw_data_location']}/20110111-annotated-groundtruth.xml").getroot()
         root_all = ET.parse(f"{self.config['raw_data_location']}/rwth-phoenix-full-20120323.corpus").getroot()
         for video in tqdm(root.findall("video"), desc="Creating baseline data"):
@@ -197,13 +202,13 @@ class BaselineDataProcessor(DataProcessor):
             self.data_dicts.append(video_dict)
     
     def create_video_tensor(self, pil_images_list):
-        """_summary_
+        """Create a tensor representation of a video from a list of PIL images.
 
         Args:
-            pil_images_list (_type_): _description_
+            pil_images_list (list): List of PIL Image objects representing video frames.
 
         Returns:
-            _type_: _description_
+            torch.Tensor: A tensor representation of the video.
         """        
         image_transform_tensor = torchvision.transforms.Compose([
             torchvision.transforms.ToTensor()
@@ -218,14 +223,16 @@ class BaselineDataProcessor(DataProcessor):
         return torch.nn.functional.interpolate(flattened_tensor.unsqueeze(1), size=(1024,)).squeeze(1)
 
     def generate_GPT_text(self, gloss):
-        """_summary_
+        """Generate a German natural sentence translation directly from sign language glosses.
+        With this method we do not have to match glosses, but create completley new strings.
+        Can be used by setting gpt_full in the config to True.
 
         Args:
-            gloss (_type_): _description_
+            gloss (str): The sign language gloss to translate.
 
         Returns:
-            _type_: _description_
-        """        
+            str: The generated German natural sentence translation.
+        """       
         completion = self.openai_client.chat.completions.create(
             model="gpt-4o",
             messages=[
@@ -253,27 +260,27 @@ class BodypartDataProcessor(DataProcessor):
             self.combination_data_dict = self.load_combination_data(combination_data_file, whole_data_file)
 
     def load_whole_data(self, whole_data_file):
-        """_summary_
+        """Load and process the baseline data from a pickle file into a dictionary.
 
         Args:
-            whole_data_file (_type_): _description_
+            whole_data_file (str): Path to the file containing the baseline pickle file.
 
         Returns:
-            _type_: _description_
+            dict: The data_dict from the baseline pickle file.
         """        
         whole_data = self.load_data(whole_data_file)
         return {video["name"]: video for video in whole_data}
 
     def load_combination_data(self, combination_data_file, whole_data_file):
-        """_summary_
+        """Load combination data from a file or use whole data if files are the same.
 
         Args:
-            combination_data_file (_type_): _description_
-            whole_data_file (_type_): _description_
+            combination_data_file (str): Path to the combination data file.
+            whole_data_file (str): Path to the whole data file.
 
         Returns:
-            _type_: _description_
-        """        
+            dict: A dictionary where keys are video names and values are video data dictionaries.
+        """         
         if combination_data_file == whole_data_file:
             return self.whole_data_dict
         else:
@@ -281,7 +288,7 @@ class BodypartDataProcessor(DataProcessor):
             return {video["name"]: video for video in combination_data}
 
     def create_data(self):
-        """_summary_
+        """Create data with added bodyparts focus
         """        
         root = ET.parse(f"{self.config['raw_data_location']}/20110111-annotated-groundtruth.xml").getroot()
         root_all = ET.parse(f"{self.config['raw_data_location']}/rwth-phoenix-full-20120323.corpus").getroot()
@@ -303,13 +310,14 @@ class BodypartDataProcessor(DataProcessor):
             self.data_dicts.append(video_dict)
 
     def create_bodypart_video_tensor(self, video_name):
-        """_summary_
+        """Takes the tensor representation of the baseline video and adds tensors focusing on specific
+        bodyparts (mouth, hands)
 
         Args:
-            video_name (_type_): _description_
+            video_name (str): Name of the video to process.
 
         Returns:
-            _type_: _description_
+            torch.Tensor: A tensor representation of the video with added body part focus.
         """        
         # find images for given video
         pil_images_list = self.pil_image_dict[video_name]
@@ -342,4 +350,42 @@ class BodypartDataProcessor(DataProcessor):
         return torch.mul(final_tensor, combination_tensor)
 
 class AugmentedDataProcessor(DataProcessor):
-    pass
+    def __init__(self, config, data_file):
+        super().__init__(config)
+        self.data_dicts = []
+        self.orig_data_dicts = self.load_data(data_file)
+
+    def augment_data(self):
+        """Create new images by flipping and changing the contrast in the images.
+        """        
+        if self.data_dicts == []:
+            # Transformation methods
+            transform_flip = A.Compose([
+                A.HorizontalFlip(),
+            ])
+            transform_contrast = A.Compose([
+                A.RandomBrightnessContrast(),
+            ])
+
+            for video in self.orig_data_dicts:
+                image = np.array(video["sign"])
+                flip_video = video.copy()
+                flip_video["name"] += "_flip"
+                flip_video["sign"] = torch.from_numpy(transform_flip(image=image)["image"])
+
+                contrast_video = video.copy()
+                contrast_video["name"] += "_contrast"
+                contrast_video["sign"] = torch.from_numpy(transform_contrast(image=image)["image"])
+
+                self.data_dicts.append(video)
+                self.data_dicts.append(flip_video)
+                self.data_dicts.append(contrast_video)
+
+            random.shuffle(self.data_dicts)
+
+            if len(self.data_dicts) != len(self.orig_data_dicts)*3:
+                print(f"ERROR: Augmentation did not work. The new data_dict contains {len(self.data_dicts)} items but it should contain {len(self.orig_data_dicts)*3} items.")
+            else:
+                print("Length of the new dataset:", len(self.data_dicts))
+        else:
+            print("No augmentation needed. Data has already been augmented.")

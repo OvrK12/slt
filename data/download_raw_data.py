@@ -6,7 +6,6 @@ import shutil
 import wget
 import zipfile
 
-
 OUTPUT_DIR = './raw'
 
 raw_files = [

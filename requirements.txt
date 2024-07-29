@@ -1,4 +1,5 @@
 absl-py
+albumentations
 asn1crypto
 astor
 attrs

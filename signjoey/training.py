@@ -348,7 +348,7 @@ class TrainManager:
         :param train_data: training data
         :param valid_data: validation data
         """
-        wandb.init(project="mml24_agkw", config = self.config, tags = [self.config["name"]])
+        wandb.init(project="mml24_agkw", name=self.config["name"], config = self.config, tags = [self.config["name"]])
 
         train_iter = make_data_iter(
             train_data,
