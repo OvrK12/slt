@@ -15,7 +15,7 @@ The data can be downloaded with the links provided below.
 It was created in the course of the experiment development.
 The original data by [Camgöz et al. (2020)](https://arxiv.org/abs/2003.13830) can be downloaded with the script provided in the ```data``` folder.
 
-All used package versions are provided in the ```requirements.txt``` file.
+All used package versions for our experiments are provided in the ```requirements_new.txt``` file.
 
 ## Usage
 TODO
