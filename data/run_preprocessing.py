@@ -23,6 +23,7 @@ def process_baseline_data(config):
     processor.create_data()
     filename = f"baseline{generate_file_afix(config)}.pickle"
     processor.dump_data(f"{config['preprocessed_data_location']}/{filename}")
+    processor.split_data(f"{config['preprocessed_data_location']}/{filename}")
     return filename
 
 def process_bodypart_data(config,baseline_data):   

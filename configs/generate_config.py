@@ -3,11 +3,11 @@ import yaml
 
 
 def create_config(dataset_name, train_file, dev_file, test_file, 
-                  learning_rate, batch_size, epochs, model_dir):
+                  learning_rate, batch_size, epochs, hidden_dim, model_dir):
     config = {
-        'name': dataset_name,
+        'name': f"{dataset_name}_lr{lr}_bs{bs}_epochs{epochs}_h{hidden_dim}",
         'data': {
-            'data_path': './data/',
+            'data_path': './data/preprocessed_data/wordset/',
             'version': 'phoenix_2014_trans',
             'sgn': 'sign',
             'txt': 'text',
@@ -111,33 +111,36 @@ def save_config(config, filename):
 # Add datasets for which you want to create configs here
 datasets = [
     {
-        'name': 'hands_mouth_whole',
-        'train': 'bothHands+whole_data_train.pickle',
-        'dev': 'bothHands+whole_data_dev.pickle',
-        'test': 'bothHands+whole_data_test.pickle',
+        'name': 'mouth_whole',
+        'train': 'mouth_gptsub_aug_train.pickle',
+        'dev': 'mouth_gptsub_aug_dev.pickle',
+        'test': 'mouth_gptsub_aug_test.pickle',
         'model_dir': './sign_sample_model/hands_mouth_whole'
     },
 ]
 
-learning_rates = [0.001, 0.0001]
-batch_sizes = [32, 64]
+learning_rates = [1e-3, 1e-4, 1e-5]
+batch_sizes = [16, 32, 64]
 epochs_list = [10, 20]
+hidden_dims = [256, 512]
 
 for dataset in datasets:
     for lr in learning_rates:
         for bs in batch_sizes:
             for epochs in epochs_list:
-                config = create_config(
-                    dataset_name=dataset['name'],
-                    train_file=dataset['train'],
-                    dev_file=dataset['dev'],
-                    test_file=dataset['test'],
-                    learning_rate=lr,
-                    batch_size=bs,
-                    epochs=epochs,
-                    model_dir=dataset['model_dir']
-                )
-                
-                filename = f"{dataset['name']}_lr{lr}_bs{bs}_epochs{epochs}.yaml"
-                save_config(config, filename)
-                print(f"Created config file: {filename}")
+                for hidden_dim in hidden_dims:
+                    config = create_config(
+                        dataset_name=dataset['name'],
+                        train_file=dataset['train'],
+                        dev_file=dataset['dev'],
+                        test_file=dataset['test'],
+                        learning_rate=lr,
+                        batch_size=bs,
+                        epochs=epochs,
+                        hidden_dim=hidden_dims,
+                        model_dir=dataset['model_dir']
+                    )
+                    
+                    filename = f"{dataset['name']}_lr{lr}_bs{bs}_epochs{epochs}_h{hidden_dim}.yaml"
+                    save_config(config, filename)
+                    print(f"Created config file: {filename}")

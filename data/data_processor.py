@@ -10,6 +10,9 @@ from PIL import Image
 import random
 import albumentations as A
 import numpy as np
+from nltk.translate.bleu_score import sentence_bleu
+from nltk.tokenize import word_tokenize
+from nltk.translate.bleu_score import SmoothingFunction
 from openai import OpenAI
 
 def create_pil_images(data_path):
@@ -114,8 +117,29 @@ class DataProcessor:
                 gloss_set.add(word)
         return gloss_set
 
+    def match_bleu_gloss(self, orig_gloss):
+        """Find the index of the best matching gloss from the ground truth glosses using bleu score (unigram).
+
+        Args:
+            orig_gloss (str): The original gloss to match.
+
+        Returns:
+            int: Index of the best matching gloss in the ground truth set.
+        """        
+        reference = word_tokenize(orig_gloss.lower())
+        # add + 1 to every count
+        smoother = SmoothingFunction().method1
+        with open(f"{self.config['raw_data_location']}/translation_full_set/glosses.train", "r", encoding="utf-8") as gloss_train:
+            gt_glosses = [word_tokenize(gt_gloss.strip().lower()) for gt_gloss in gloss_train.readlines()]
+            bleu_scores = [
+            sentence_bleu([reference], candidate, weights=(0.8,0.2), smoothing_function=smoother)
+                for candidate in gt_glosses
+            ]
+            
+            return max(range(len(bleu_scores)), key=lambda i: bleu_scores[i])
+
     def match_gloss(self, orig_gloss):
-        """Find the index of the best matching gloss from the ground truth glosses.
+        """Find the index of the best matching gloss from the ground truth glosses using wordsets.
 
         Args:
             orig_gloss (str): The original gloss to match.
@@ -133,6 +157,7 @@ class DataProcessor:
             # find index with highest intersection
             intersections = [gt_set.intersection(word_set) for gt_set in gt_gloss_sets]
             return max(range(len(intersections)), key=lambda i: len(intersections[i]))
+        
 
     def add_text(self, index, gloss):
         """Add natural language text to the data_dict according to the matched gloss.
@@ -196,7 +221,11 @@ class BaselineDataProcessor(DataProcessor):
             if self.config['gpt_full']:
                 video_dict["text"] = self.generate_GPT_text(video_dict["gloss"])
             else:
-                index = self.match_gloss(video_dict["gloss"])
+                index = 0
+                if self.config['bleu']:
+                    index = self.match_bleu_gloss(video_dict["gloss"])
+                else:
+                    index = self.match_gloss(video_dict["gloss"])
                 video_dict["text"] = self.add_text(index, video_dict["gloss"])
 
             self.data_dicts.append(video_dict)
@@ -354,10 +383,11 @@ class AugmentedDataProcessor(DataProcessor):
         super().__init__(config)
         self.data_dicts = []
         self.orig_data_dicts = self.load_data(data_file)
+        print(f"Augmenting {data_file}")
 
     def augment_data(self):
         """Create new images by flipping and changing the contrast in the images.
-        """        
+        """
         if self.data_dicts == []:
             # Transformation methods
             transform_flip = A.Compose([
