@@ -10,8 +10,10 @@ It is based on the prior research by [Camgöz et al. (2020)](https://arxiv.org/a
 
 
 ## Installation
-The data is stored in the ```data``` folder and ready-to-use for the transformer.
+<!-- The data is stored in the ```data``` folder and ready-to-use for the transformer. -->
+The data can be downloaded with the links provided below.
 It was created in the course of the experiment development.
+The original data by [Camgöz et al. (2020)](https://arxiv.org/abs/2003.13830) can be downloaded with the script provided in the ```data``` folder.
 
 All used package versions are provided in the ```requirements.txt``` file.
 
@@ -19,7 +21,7 @@ All used package versions are provided in the ```requirements.txt``` file.
 TODO
 
 The transformer can be trained with
-    ````python -m signjoey train configs/sign.yaml```
+    ```python -m signjoey train configs/sign.yaml```
 
 The following configuration files are available in ```configs``` for experiments:
 - ```sign.yaml```: Standard configuration by the authors of the original repository.
@@ -35,6 +37,16 @@ The following configuration files are available in ```configs``` for experiments
 | HandsMouthAndWholeDataGPT | https://drive.google.com/uc?id=1-RjXkc2r_YRyQUFswFij28YRQF9158jg | https://drive.google.com/uc?id=1-fwanvnOyebxKSDQ9UqpHGccR2cIxcN5 | https://drive.google.com/uc?id=1055gu-eQI8CpwJJWKqL7TmNKvFn8Rxrp |
 | HandsOnlyDataGPT          | https://drive.google.com/uc?id=1-N6uxpmU-RhctMPCwXYBFwEVDhKIJYo2 | https://drive.google.com/uc?id=1-ZJ4Sxuh264_cLDb0dIeEuKUo2emJ3Ad | https://drive.google.com/uc?id=1-kNidBToKRBp64YS9flgQlOfyxksdf4L |
 | MouthOnlyDataGPT          | https://drive.google.com/uc?id=1-VI2yZ6v5uQ_y_vTNHqr3YImqGB1pG1I | https://drive.google.com/uc?id=1-tV27pi069Jq-X0epnha-gadXy8yZC96 | https://drive.google.com/uc?id=1-vbGtlBMtHzAzrXEo1vFp9xlUGWpg92j |
+
+### GPT Generated Texts with Data Augmentation
+| Dataset                   | Train | Test | Dev |
+|---------------------------|-------|------|-----|
+| Baseline            | https://drive.google.com/uc?id=1-Okmgv4s5F0e572JuPkVFL5sh90cRxwi | https://drive.google.com/uc?id=1-Xs3cHrqSp-l3YnTxCXbpNkJqe4fiHm- | https://drive.google.com/uc?id=1-cTA9XMxaIUuDctm5mhEZpocB1f40J46 |
+| HandsAndWholeDataGPT      | https://drive.google.com/uc?id=1-q_0fLtoWh6ZApy3U6_WtMcP_3Eqa4Q8 | https://drive.google.com/uc?id=1-tZu0kSDdS-NY4yZIUU4wwT1QKaQIhox | https://drive.google.com/uc?id=1-u97dtFlyIEzloNVtcVCTajJvOz2tVZi |
+| MouthAndWholeDataGPT      | https://drive.google.com/uc?id=107G7bqeqQrUwZrOfTXQOtGY1aHyD5dHS | https://drive.google.com/uc?id=10DPaDt6efFjCQFY03KGBlBxIaNTyVpIW | https://drive.google.com/uc?id=10Cs4ps7ZzwMC_D5KQno7jyi8-psc53bO |
+| HandsMouthAndWholeDataGPT | https://drive.google.com/uc?id=10FH1uJkbhcnEbNTV5nOl9LhvRO-JHgrH | https://drive.google.com/uc?id=10HVjUsJcZz-3rIX4gqpnXbMc-hrm4JpF | https://drive.google.com/uc?id=10Ge1t7-xwSsX85mrYFJpanV-nakCWX_Z |
+| HandsOnlyDataGPT          | https://drive.google.com/uc?id=189OcEcYrntX_L3w-Cg6MjHDE37dduxKe | https://drive.google.com/uc?id=1LtB0Gyefb4mnair_CIsZ1wmU4LRtZmX2 | https://drive.google.com/uc?id=1hGPjmXXHePidX0ceGba8Y6c0n05P9QyE |
+| MouthOnlyDataGPT          | https://drive.google.com/uc?id=1-En8z16WiJNhi81nnT5IYFnxLkUNT73e | https://drive.google.com/uc?id=1-Ev9WznGivXHOfy7QaSdDhLjtAasV69e | https://drive.google.com/uc?id=1-I5_uG9VWUtjL9CoPa3dkxw3s2MvQ5tU |
 
 ### Wordset Matching with GPT Substitutions
 | Dataset                 | Train | Test | Dev |
