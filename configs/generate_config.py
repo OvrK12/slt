@@ -137,7 +137,7 @@ for dataset in datasets:
                         learning_rate=lr,
                         batch_size=bs,
                         epochs=epochs,
-                        hidden_dim=hidden_dims,
+                        hidden_dim=hidden_dim,
                         model_dir=dataset['model_dir']
                     )
                     
