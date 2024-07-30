@@ -41,6 +41,8 @@ def create_pil_images(data_path):
 
 
 class DataProcessor:
+    """ Super class for the data processing methods used by all data objects.
+    """
     def __init__(self, config):
         self.config = config
         self.data_dicts = []
@@ -92,6 +94,7 @@ class DataProcessor:
         with gzip.open(test_file, "wb") as test:
             pickle.dump(self.data_dicts[dev_index:], test)
 
+        # Sanity check
         print(f"Train data: {len(self.data_dicts[:train_index])}")
         print(f"Dev data: {len(self.data_dicts[train_index:dev_index])}")
         print(f"Test data: {len(self.data_dicts[dev_index:])}")
@@ -107,11 +110,14 @@ class DataProcessor:
             set: The wordset extracted from the gloss string.
         """      
         gloss_set = set()
+
         for word in gloss.split(" "):
             if word.startswith("loc-"):
+                # Add LOC as a word
                 gloss_set.add("LOC")
                 gloss_set.add(word[4:])
             elif "-" in word:
+                # Remove hyphens
                 gloss_set.update(word.split("-"))
             else:
                 gloss_set.add(word)
@@ -197,6 +203,8 @@ class DataProcessor:
         return retrieved_text
 
 class BaselineDataProcessor(DataProcessor):
+    """ Subclass to process the baseline data (whole videos without extracted body parts).
+    """
     def __init__(self, config, pil_image_dict):
         super().__init__(config)
         self.pil_image_dict = pil_image_dict
@@ -204,12 +212,14 @@ class BaselineDataProcessor(DataProcessor):
     def create_data(self):
         """Create baseline data.
         """     
+        # Collect information from the RWTH-dataset
         root = ET.parse(f"{self.config['raw_data_location']}/20110111-annotated-groundtruth.xml").getroot()
         root_all = ET.parse(f"{self.config['raw_data_location']}/rwth-phoenix-full-20120323.corpus").getroot()
         for video in tqdm(root.findall("video"), desc="Creating baseline data"):
             video_dict = {}
             video_name = video.get("name")
             video_dict["name"] = video_name
+            # Tensor of the video
             video_dict["sign"] = self.create_video_tensor(self.pil_image_dict[video_name])
 
             for recording in root_all.findall("recording"):
@@ -217,7 +227,8 @@ class BaselineDataProcessor(DataProcessor):
                     segment = recording[0]
                     video_dict["signer"] = segment[0].get("name")
                     video_dict["gloss"] = segment.find("orth").text.strip()
-
+            
+            # Textual translations
             if self.config['gpt_full']:
                 video_dict["text"] = self.generate_GPT_text(video_dict["gloss"])
             else:
@@ -281,6 +292,7 @@ class BaselineDataProcessor(DataProcessor):
         return retrieved_text
 
 class BodypartDataProcessor(DataProcessor):
+    """ Subclass which extracts the body parts from the original videos. """
     def __init__(self, config, pil_image_dict, whole_data_file, combination_data_file = None):
         super().__init__(config)
         self.pil_image_dict = pil_image_dict
@@ -379,6 +391,7 @@ class BodypartDataProcessor(DataProcessor):
         return torch.mul(final_tensor, combination_tensor)
 
 class AugmentedDataProcessor(DataProcessor):
+    """ Subclass to augment already existing data """
     def __init__(self, config, data_file):
         super().__init__(config)
         self.data_dicts = []

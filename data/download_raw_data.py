@@ -17,11 +17,23 @@ raw_files = [
 ]
 
 def extract_gz(gz_path, extract_path):
+    """This function extract gz-files. 
+
+    Args:
+        gz_path: Source path
+        extract_path: Target path
+    """
     with gzip.open(gz_path, 'rb') as f_in:
         with open(extract_path, 'wb') as f_out:
             shutil.copyfileobj(f_in, f_out)
 
 def extract_tgz(tgz_path, extract_dir):
+    """This function extract tgz-files. 
+
+    Args:
+        tgz_path: Source path
+        extract_dir: Target path
+    """
     with tarfile.open(tgz_path, 'r:gz') as tar:
         tar.extractall(path=extract_dir)
 
