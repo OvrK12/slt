@@ -81,6 +81,7 @@ if __name__ == "__main__":
     with open(CONFIG_LOCATION, "r", encoding="utf-8") as ymlfile:
         config = yaml.safe_load(ymlfile)
     baseline_data = process_baseline_data(config)
-    filenames = process_bodypart_data(config, baseline_data)
+    bodypart_filenames = process_bodypart_data(config, baseline_data)
     if config['augmented']:
-        process_augmented_data(filenames)
+        process_augmented_data(baseline_data)
+        process_augmented_data(bodypart_filenames)
