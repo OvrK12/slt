@@ -10,12 +10,15 @@ It is based on the prior research by [Camgöz et al. (2020)](https://arxiv.org/a
 
 
 ## Installation
-<!-- The data is stored in the ```data``` folder and ready-to-use for the transformer. -->
-The data can be downloaded with the links provided below.
-It was created in the course of the experiment development.
-The original data by [Camgöz et al. (2020)](https://arxiv.org/abs/2003.13830) can be downloaded with the script provided in the ```data``` folder.
+All dependencies required for the project can be installed using ``pip install -r .\requirements.txt``. To download the raw data for our project cd to the ``data`` folder and run ``python ./download_raw_data.py``. This will download and unpack all required files under ``data/raw_data``. You can then run the preprocessing using ``python ./run_preprocessing.py``. You can configure the preprocessing steps using the ``preprocess_config.yaml`` file inside the data folder:
+- gpt_subs: set this option to True for GPT substitutions for placeholders in the natural language translations (this option requires access to the OpenAI API. Therefore, you will need to set an OpenAI API key in your env variables)
+- gpt_full: set this option to True for GPT generated replacements of the natural language translations (this option requires access to the OpenAI API. Therefore, you will need to set an OpenAI API key in your env variables)
+- augmented: set this option to True for creating extra training data using data augmentation (image flipping, greyscaling)
+- bleu: set this option to True to align the preprocessed gloss with the original gloss using bleu score (instead of worset overlaps)
 
-All used package versions for our experiments are provided in the ```requirements_new.txt``` file.
+If you do not want to run the preprocessing from scratch, you can download our best performing datasets (bleu alignment, with gpt substitutions and augmented data) using ``python ./download_preprocessed_datasets.py``
+
+Furthermore, we tried out finetuning the original transformer (as reported in [Camgöz et al. (2020)](https://arxiv.org/abs/2003.13830)) with our custom created datasets. For this, we pretrained the original transformer for 70 epochs. You can find checkpoints under: https://drive.google.com/file/d/11YX0lTdkRF09xdT9UzuZ42zTvMyldR1I/view?usp=sharing
 
 ## Usage
 TODO
