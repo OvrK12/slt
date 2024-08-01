@@ -31,6 +31,18 @@ The following configuration files are available in ```configs``` for experiments
 
 ## Datasets
 
+
+### Bleu Matching + GPT Subs + Augmentation
+| Dataset                   | Train | Test | Dev |
+|---------------------------|-------|------|-----|
+| Baseline            | https://drive.google.com/uc?id=1wRwKE7A4eyXWvcI6Qb5xrfJmltTMjSBm | https://drive.google.com/uc?id=1l9J-ojZ1LaM70pOYS7YMqqEA7252AxxN | https://drive.google.com/uc?id=1DPAe3807kDr1kAui5S8ZK8x2yx85lIL4 |
+| HandsAndWholeData     | https://drive.google.com/uc?id=1-H7WGFtiPwb0U7lPa6oaFcnOLjMeqEOH | https://drive.google.com/uc?id=1-PiHfNcaWho6wVY3x6kFEEviurvzoUVd| https://drive.google.com/uc?id=1-tze5w6w-UTLU2QKazmTRJW9LCS95uj9|
+| MouthAndWholeData    | https://drive.google.com/uc?id=1-PQAdsovmgwK_oVobU4wNccB6p1y0OIe | https://drive.google.com/uc?id=1-_g2I1wnxHyah35-Wi5mK4qds4ck5_R_ | https://drive.google.com/uc?id=1-n6DY8v03I65zomyBIkWC6xPn-CpgnHS |
+| HandsMouthAndWholeData | https://drive.google.com/uc?id=1-RjXkc2r_YRyQUFswFij28YRQF9158jg | https://drive.google.com/uc?id=1-fwanvnOyebxKSDQ9UqpHGccR2cIxcN5 | https://drive.google.com/uc?id=1055gu-eQI8CpwJJWKqL7TmNKvFn8Rxrp|
+| RightHandAndWholeData       | https://drive.google.com/uc?id=1-N6uxpmU-RhctMPCwXYBFwEVDhKIJYo2 | https://drive.google.com/uc?id=1-ZJ4Sxuh264_cLDb0dIeEuKUo2emJ3Ad | https://drive.google.com/uc?id=1-kNidBToKRBp64YS9flgQlOfyxksdf4L |
+| LeftHandAndWholeData        | https://drive.google.com/uc?id=1-VI2yZ6v5uQ_y_vTNHqr3YImqGB1pG1I | https://drive.google.com/uc?id=1-tV27pi069Jq-X0epnha-gadXy8yZC96 | https://drive.google.com/uc?id=1-vbGtlBMtHzAzrXEo1vFp9xlUGWpg92j |
+
+
 ### GPT Generated Texts
 | Dataset                   | Train | Test | Dev |
 |---------------------------|-------|------|-----|
