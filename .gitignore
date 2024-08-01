@@ -1,4 +1,10 @@
-
+venv/
+sign_sample_model/
+wandb/
+configs/*.yaml
+data/raw/
+data/preprocessed_data/
+data/*.pickle
 .idea/
 
 *.pyc

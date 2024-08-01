@@ -1,0 +1,7 @@
+raw_data_location: ./raw
+preprocessed_data_location: ./preprocessed_data
+# NOTE: for the gpt options to work you need to set an openAI API key in your env variables
+gpt_subs: True
+gpt_full: False
+augmented: True
+bleu: True

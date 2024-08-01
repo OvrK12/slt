@@ -348,7 +348,7 @@ class TrainManager:
         :param train_data: training data
         :param valid_data: validation data
         """
-        wandb.init(project="mml24_agkw", config = self.config, tags = [self.config["name"]])
+        wandb.init(project="mml24_agkw", name=self.config["name"], config = self.config, tags = [self.config["name"]])
 
         train_iter = make_data_iter(
             train_data,
@@ -755,8 +755,8 @@ class TrainManager:
 
         # TODO: change data path to make it usable outside of colab
         artifact = wandb.Artifact(name=self.config["name"], type="model", metadata = self.config)
-        artifact.add_file(f"/content/slt/sign_sample_model/{self.config['name']}/best.ckpt")
-        wandb.save(f"/content/slt/sign_sample_model/{self.config['name']}/best.ckpt")
+        artifact.add_file(f"./sign_sample_model/{self.config['name']}/best.ckpt")
+        wandb.save(f"./sign_sample_model/{self.config['name']}/best.ckpt")
         wandb.log_artifact(artifact)
 
         self.tb_writer.close()  # close Tensorboard writer
