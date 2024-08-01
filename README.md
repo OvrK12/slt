@@ -73,6 +73,15 @@ The following configuration files are available in ```configs``` for experiments
 | HandsOnlyData           | https://drive.google.com/uc?id=1-1dByBwk1UjUPkL4-hQXdIclvqzP2zGv | https://drive.google.com/uc?id=1-26T3zqfojt4QFUHLyYosZd1HRHLuCIF | https://drive.google.com/uc?id=1-1ZPFe098yDqPK8q5OsF9A6arA7imDuA |
 | MouthOnlyData           | https://drive.google.com/uc?id=1-3L2z45oFlA8VXAPpGDJeDHAS_fwzJ-x | https://drive.google.com/uc?id=1-5lks2H8Yra3v5AXzM2Ke2fnRMfs0bcm | https://drive.google.com/uc?id=1-2PC8CvozTMaaVQU_xhP7uk90hNdnafa |
 
+### EfficientNet B7 - Wordset Matching with GPT Substitutions
+| Dataset                 | Train | Test | Dev |
+|-------------------------|-------|------|-----|
+| Baseline                | [https://drive.google.com/uc?id=1gUSL44-8C8ZNzBN83giwNuzbJRFAAPym] | https://drive.google.com/uc?id=1vcIqV0JFZlsjzur4bUb_JXFT0fhhn9_u | https://drive.google.com/uc?id=1bptuKXd-vHpTyhfTGhV2CNJwv5oG8Y9c |
+| HandsAndWholeData       | https://drive.google.com/uc?id=1-8VEREqCO3nPyaqUdk_epu25qUgfPU0r | https://drive.google.com/uc?id=1-8_-UhNLZxcaxijXyRGOsK8DkfxpSdG8 | https://drive.google.com/uc?id=1-7PnIAhSzhc7EJWj4bZNYd46iaNM06Z_ |
+| MouthAndWholeData       | https://drive.google.com/uc?id=1--XPOEAv8q_tefXt-hs4lsaXUtjlWh9C | https://drive.google.com/uc?id=1--e2fMnV8KRiyRmVnN0ul3V8chvT0UbX | https://drive.google.com/uc?id=1-0dcE9pDgRQozJV0VcCvf_71SOHwR_9G |
+| HandsMouthAndWholeData  | https://drive.google.com/uc?id=1ZYe07sJkPgA-nn-efEDNfsrVZMjNWCqB | https://drive.google.com/uc?id=1--HhISm4dkxZJufavzSqto3hotbagM9l | https://drive.google.com/uc?id=1IHlN1ov2IAu9AaT9a4mcYRJXd_N-uGuM |
+| HandsMouthAndWholeData Augmented    | https://drive.google.com/uc?id=1-JoMed-i3JihHRuOVaQ_aU1OO5FLDRfl | https://drive.google.com/uc?id=1-Kk51IemietdS4haf5nS90iA8MxMoini | https://drive.google.com/uc?id=1-M_Eq-glEhNnatNl_piJhKPJzVGvCfb- |
+| MouthAndWholeData Augmented   | https://drive.google.com/uc?id=1-AnQ2uDidyLLB8GX9YypM4o3cnezZO6x | https://drive.google.com/uc?id=1-CkTBtPRZmOG3nV6DSFfB6pdWJmJssSk | https://drive.google.com/uc?id=1-IQWAhMfFIMilyGNlQD__MeEkGaaPzVS |
 
 ## Results
 TODO
