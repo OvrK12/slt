@@ -13,7 +13,7 @@ raw_files = [
     'https://www-i6.informatik.rwth-aachen.de/ftp/pub/rwth-phoenix/rwth-phoenix-full-20120323.corpus.gz',
     'https://www-i6.informatik.rwth-aachen.de/ftp/pub/rwth-phoenix/tracking-groundtruth-sequences.tgz',
     'https://www-i6.informatik.rwth-aachen.de/ftp/pub/rwth-phoenix/translation_full_set_20120820.tgz',
-    'https://drive.google.com/uc?id=1P7a2nZcD8wFkar8QNCKn_rI0K_I9OHcW'
+    'https://drive.google.com/uc?id=1P7a2nZcD8wFkar8QNCKn_rI0K_I9OHcW' # extracted bodyparts
 ]
 
 def extract_gz(gz_path, extract_path):
