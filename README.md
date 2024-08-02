@@ -26,9 +26,12 @@ Furthermore, we tried out finetuning the original transformer (as reported in [C
 The transformer can be trained with ```python -m signjoey train CONFIG```
 
 As configuration files, we provide two options:
-- ```configs/generate_config.py```: Script to create a config file for the desired dataset by editing the parameters within the script. 
+- ```configs/generate_config.py```: Script to create a config file for the desired dataset by editing the parameters within the script. You should adjust hyperparameters and the path to the train, test, dev files.
 - ```configs/baseline.yaml.example```: Standard configuration by [Camgöz et al. (2020)](https://arxiv.org/abs/2003.13830).
 
+The transformer can be finetuned with ``python -m signjoey fine_tune <your-config> --ckpt <your-checkpoint>``
+
+You can download the checkpoint from a pretrained version of the original transfomer under: https://drive.google.com/file/d/11YX0lTdkRF09xdT9UzuZ42zTvMyldR1I/view?usp=sharing
 ## Dataset
 The links to all of the datasets can be found in the file ```data/links.md```. We list only the best performing dataset here:
 
