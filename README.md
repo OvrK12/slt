@@ -21,13 +21,11 @@ If you do not want to run the preprocessing from scratch, you can download our b
 Furthermore, we tried out finetuning the original transformer (as reported in [Camgöz et al. (2020)](https://arxiv.org/abs/2003.13830)) with our custom created datasets. For this, we pretrained the original transformer for 70 epochs. You can find checkpoints under: https://drive.google.com/file/d/11YX0lTdkRF09xdT9UzuZ42zTvMyldR1I/view?usp=sharing
 
 ## Usage
-TODO
+The transformer can be trained with ```python -m signjoey train CONFIG```
 
-The transformer can be trained with
-    ```python -m signjoey train configs/sign.yaml```
-
-The following configuration files are available in ```configs``` for experiments:
-- ```sign.yaml```: Standard configuration by the authors of the original repository.
+As configuration files, we provide two options:
+- ```configs/generate_config.py```: Script to create a config file for the desired dataset by editing the parameters within the script. 
+- ```configs/baseline.yaml.example```: Standard configuration by [Camgöz et al. (2020)](https://arxiv.org/abs/2003.13830).
 
 ## Datasets
 
@@ -90,5 +88,5 @@ TODO
 We want to thank our supervisors Özge Alacam and Beiduo Chen for their support and advice in the developing stages of the project.
 
 ## Project status
-<!-- This project was finished on August 2nd, 2024. -->
-This project is a work-in-progress.
+This project was finished on August 2nd, 2024.
+<!-- This project is a work-in-progress. -->
