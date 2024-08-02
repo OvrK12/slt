@@ -28,7 +28,7 @@ As configuration files, we provide two options:
 - ```configs/baseline.yaml.example```: Standard configuration by [Camgöz et al. (2020)](https://arxiv.org/abs/2003.13830).
 
 ## Dataset
-
+The links to all of the datasets can be found in the file ```data/links.md```. We list only the best performing dataset here:
 
 ### Bleu Matching + GPT Subs + Augmentation
 | Dataset                   | Train | Test | Dev |
@@ -41,7 +41,12 @@ As configuration files, we provide two options:
 | LeftHandAndWholeData        | https://drive.google.com/file/d/1nUe49pdCuV7MJZBKn4Ovqo0hkLAsognB | https://drive.google.com/file/d/1PVfnWVx1mmZNqphOjM3wvx3NEHA_1W5m | https://drive.google.com/file/d/10LYy9Gx3Ictz59gPRHAK_NOcnWalNJRO |
 
 ## Results
-TODO
+| Body Part                   | BLEU-1 | BLEU-2 | BLEU-3 | BLEU-4 | ROUGE | CHRF |
+|---------------------------|---------------|---------|--------|--------|--------|--------|
+| Baseline            | 68.60 | 66.37 | 65.48 | 64.93 | 70.60 | 71.98 |
+| HandsAndWholeData     | 76.38 | 74.85 | 74.20 | 73.81 | 77.25 | 80.10 |
+| MouthAndWholeData    | 68.65 | 66.79 | 66.12 | 65.80 | 68.58 | 72.24 |
+| HandsMouthAndWholeData | 73.27 | 71.14 | 70.25 | 69.76 | 74.06 | 75.73 |
 
 ## Acknowledgment
 We want to thank our supervisors Özge Alacam and Beiduo Chen for their support and advice in the developing stages of the project.
