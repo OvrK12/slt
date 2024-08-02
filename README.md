@@ -10,7 +10,9 @@ It is based on the prior research by [Camgöz et al. (2020)](https://arxiv.org/a
 
 
 ## Installation
-All dependencies required for the project can be installed using ``pip install -r .\requirements.txt``. To download the raw data for our project cd to the ``data`` folder and run ``python ./download_raw_data.py``. This will download and unpack all required files under ``data/raw_data``. You can then run the preprocessing using ``python ./run_preprocessing.py``. You can configure the preprocessing steps using the ``preprocess_config.yaml`` file inside the data folder:
+All dependencies required for the project can be installed using ``pip install -r .\requirements.txt``. To download the raw data for our project cd to the ``data`` folder and run ``python ./download_raw_data.py``. This will download the RWTH-PHOENIX-Weather Database and unpack all files under ``data/raw_data``. Furthermore, the extracted bodyparts are part of the downloaded files. If you want to rerun the bodypart extraction manually on the dataset, you can do so by running ``python ./bodypart_extraction.py``.
+
+To create the datasets for our experiments, you can then run the preprocessing using ``python ./run_preprocessing.py``. This will create datasets which combine the original images of the RWTH-PHOENIX-Weather Database with the extracted bodyparts. You can configure the preprocessing steps using the ``preprocess_config.yaml`` file inside the data folder:
 - gpt_subs: set this option to True for GPT substitutions for placeholders in the natural language translations (this option requires access to the OpenAI API. Therefore, you will need to set an OpenAI API key in your env variables)
 - gpt_full: set this option to True for GPT generated replacements of the natural language translations (this option requires access to the OpenAI API. Therefore, you will need to set an OpenAI API key in your env variables)
 - augmented: set this option to True for creating extra training data using data augmentation (image flipping, greyscaling)
